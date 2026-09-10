@@ -3,40 +3,46 @@
 * {
     margin: 0;
     box-sizing: border-box;
-    transition: 0.4s;
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
     display: grid;
-    height: 100vh;
-    grid-template-columns: 90px 0.89fr 1fr;
+    min-height: 100vh;
+    grid-template-columns: 90px minmax(320px, .9fr) minmax(0, 1fr);
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 #left {
     background: #2916e0;
-    padding: 0 15px;
+    padding: 0 clamp(20px, 3vw, 48px);
 }
 
 .about-img {
     text-align: center;
-    background-image: url(../imagens/about-bg.png);
+    background-image: url(imagens/about-bg.png), url(../imagens/about-bg.png);
     background-repeat: no-repeat;
-    background-size: inherit;
     background-position: center center;
+    background-size: contain;
 }
 
 .about-img img {
-    width: 515px;
-    height: 515px;
+    width: min(515px, 90%);
+    aspect-ratio: 1;
+    object-fit: cover;
     border-radius: 50%;
-    margin: 82px auto 50px;
+    margin: clamp(50px, 9vw, 82px) auto 50px;
 }
 
 .profile-text {
     max-width: 550px;
     margin: 0 auto;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
 }
 
 .text-white {
@@ -45,25 +51,26 @@ body {
 
 .profile-text h2 {
     font-weight: 500;
+    font-size: clamp(2rem, 4vw, 2.6rem);
 }
 
 .profile-text p {
     padding-top: 20px;
     margin-bottom: 30px;
+    line-height: 1.7;
 }
 
 .profile-text .profile-btn {
     display: inline-block;
     min-width: 160px;
-    padding: 9px 10px;
-    margin-bottom: 10px;
-    margin-right: 28px;
+    padding: 10px 16px;
+    margin: 0 20px 12px 0;
     color: #fff;
     font-size: 16px;
     font-weight: 500;
     text-align: center;
     border-radius: 50px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgb(255 255 255 / 30%);
 }
 
 a {
@@ -78,10 +85,11 @@ a {
     font-size: 16px;
     color: #fff;
     text-decoration: underline;
+    overflow-wrap: anywhere;
 }
 
 #right {
-    padding: 0 15px;
+    padding: 0 clamp(20px, 4vw, 60px);
 }
 
 .about-text {
@@ -98,24 +106,58 @@ a {
 }
 
 h2 {
-    font-size: 36px;
+    font-size: clamp(2rem, 4vw, 2.25rem);
 }
 
 .about-text p {
-    font-size: 16px;
-    line-height: 1.6;
-    margin-bottom: 9px;
     font-size: 15px;
     color: #636363;
     line-height: 1.8;
+    margin-bottom: 12px;
 }
 
 .skill-warp {
     max-width: 930px;
-    margin: 0 auto;
+    margin: 0 auto 60px;
 }
 
 .text-center {
     text-align: center;
 }
 
+@media (max-width: 1050px) {
+    body {
+        grid-template-columns: 90px 1fr;
+    }
+
+    #left,
+    #right {
+        grid-column: 2;
+    }
+
+    #right {
+        padding-bottom: 50px;
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        display: block;
+        padding-top: 64px;
+    }
+
+    #left,
+    #right {
+        width: 100%;
+    }
+
+    .about-img img {
+        width: min(360px, 85vw);
+    }
+
+    .profile-text,
+    .about-text {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
