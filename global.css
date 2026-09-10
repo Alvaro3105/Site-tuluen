@@ -1,11 +1,19 @@
 #nav {
     display: grid;
     grid-template-rows: 90px 1fr;
+    width: 90px;
     height: 100vh;
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    background: #fff;
 }
 
 #menu {
     background-color: #0f0f0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #menu-toggle {
@@ -13,36 +21,47 @@
 }
 
 #menu label {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 90px;
     font-size: 30px;
     color: #fff;
-    margin-bottom: 50px;
     text-decoration: none;
-    margin-left: 27.5px;
-    margin-top: 15px;
     cursor: pointer;
 }
 
+#sociais {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .menu-social {
-    margin-top: 215px;
-    margin-left: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
 }
 
 .menu-social a {
     display: block;
     font-size: 18px;
     color: #252525;
-    margin-bottom: 50px;
     text-decoration: none;
 }
 
 #menu-aberto {
-    position: absolute;
-    width: 270px;
-    height: 100%;
-    left: -280px;
+    position: fixed;
+    width: min(270px, 88vw);
+    height: 100dvh;
+    left: -290px;
+    top: 0;
     background-color: #fff;
     z-index: 90;
+    transition: left .3s ease;
+    overflow-y: auto;
 }
 
 #menu-toggle:checked~#menu-aberto {
@@ -67,12 +86,13 @@
 }
 
 #menu-toggle:checked {
-    position: absolute;
+    position: fixed;
     z-index: 99;
     display: block;
     width: 90px;
     height: 90px;
     left: 0;
+    top: 0;
     pointer-events: all;
     opacity: 0;
     cursor: pointer;
@@ -90,9 +110,8 @@
 .main-menu ul {
     list-style: none;
     text-align: center;
-    padding: 0;
-    margin: 0;
-    margin-top: 120px;
+    padding: 0 20px;
+    margin: 70px 0 150px;
 }
 
 .main-menu ul li {
@@ -101,50 +120,47 @@
 
 .main-menu ul li a {
     display: block;
-    font-size: 30px;
+    padding: 10px 0;
+    font-size: clamp(1.55rem, 7vw, 1.9rem);
     font-weight: 600;
     color: #b2b2b2;
-    -webkit-transition: 0.3s;
-    -o-transition: 0.3s;
     transition: 0.3s;
     text-decoration: none;
 }
 
-.main-menu ul li:hover a {
+.main-menu ul li:hover a,
+.main-menu ul li a:focus-visible {
     color: #2916e0;
-}
-
-.icones {
-    margin-left: 100px;
 }
 
 .divicones {
     position: absolute;
     left: 0;
-    bottom: 7vh;
+    bottom: 24px;
     width: 100%;
     text-align: center;
     padding: 0 15px;
 }
 
+.icones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
 .icones a {
     font-size: 18px;
     color: #b2b2b2;
-    margin-right: 25px;
     text-decoration: none;
 }
 
-.textocopyright {
-    font-size: 15px;
-    font-weight: 500;
-    color: #b2b2b2;
-    margin-top: 10px;
-}
-
+.textocopyright,
 .copyright-text p {
-    font-size: 15px;
+    font-size: 14px;
     color: #636363;
-    line-height: 1.8;
+    line-height: 1.6;
+    margin-top: 10px;
 }
 
 .ti-heart {
@@ -154,4 +170,53 @@
 .copyright-text a {
     text-decoration: none;
     color: #b2b2b2;
+}
+
+@media (max-width: 700px) {
+    #nav {
+        width: 100%;
+        height: 64px;
+        grid-template-columns: 64px 1fr;
+        grid-template-rows: 64px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 0 1px 12px rgb(0 0 0 / 10%);
+    }
+
+    #menu label {
+        height: 64px;
+        font-size: 24px;
+    }
+
+    #sociais {
+        overflow: hidden;
+    }
+
+    .menu-social {
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 22px;
+        padding-right: 20px;
+    }
+
+    .menu-social a {
+        font-size: 16px;
+    }
+
+    .menu-aberto-fechar,
+    .site-logo {
+        height: 64px;
+    }
+
+    .menu-aberto-fechar {
+        width: 64px;
+        font-size: 24px;
+    }
+
+    #menu-toggle:checked {
+        width: 64px;
+        height: 64px;
+    }
 }
