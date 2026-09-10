@@ -3,14 +3,20 @@
 * {
     margin: 0;
     box-sizing: border-box;
-    transition: 0.4s;
-    font-family: "Montserrat";
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
     display: grid;
-    height: 100vh;
-    grid-template-columns: 90px 1fr;
+    min-height: 100vh;
+    grid-template-columns: 90px minmax(0, 1fr);
+    overflow-x: hidden;
+}
+
+#imagens {
+    display: flex;
+    min-width: 0;
+    min-height: 100vh;
 }
 
 #camaleao {
@@ -19,38 +25,17 @@ body {
     order: -1;
 }
 
-#camaleao .texto {
-    opacity: 1;
-    bottom: 5%;
-}
-
-#mulher {
-    background-image: url(imagens/1.jpg.webp);
-}
-
-#cachorro {
-    background-image: url(imagens/2.jpg.webp);
-}
-
-#mar {
-    background-image: url(imagens/3.jpg.webp);
-}
-
-#carro {
-    background-image: url(imagens/4.jpg.webp);
-}
-
-#imagens {
-    display: flex;
-
-}
+#mulher { background-image: url(imagens/1.jpg.webp); }
+#cachorro { background-image: url(imagens/2.jpg.webp); }
+#mar { background-image: url(imagens/3.jpg.webp); }
+#carro { background-image: url(imagens/4.jpg.webp); }
 
 .item-img {
-    flex-grow: 1;
+    flex: 1 1 0;
+    min-width: 0;
     background-size: cover;
-    background-position: top left;
-    transition: all 0.4s;
-    float: left;
+    background-position: center;
+    transition: flex .4s ease, background-position .4s ease;
     position: relative;
     overflow: hidden;
 }
@@ -58,63 +43,44 @@ body {
 .item-img::after {
     content: "";
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, rgba(15, 15, 15, 0.8) 0%, rgba(15, 15, 15, 0) 100%);
+    inset: 0;
+    background: linear-gradient(to top, rgb(15 15 15 / 80%) 0%, rgb(15 15 15 / 0%) 100%);
     opacity: 0;
-    transition: all 0.4s;
+    transition: opacity .4s;
 }
 
-.item-img:hover::after {
+.item-img:hover::after,
+.item-img:focus-within::after {
     opacity: 1;
 }
 
-.item-img:hover {
+.item-img:hover,
+.item-img:focus-within {
     flex-grow: 4;
-    background-position: top center;
+    background-position: center;
 }
 
 .item-img:hover~#camaleao {
     flex-grow: 1;
 }
 
-.item-img:hover~#camaleao .texto {
-    bottom: 25%;
-    opacity: 0;
-}
-
-.item-img:hover #imagens {
-    filter: none;
-}
-
-.item-img:hover~#camaleao:hover {
-    flex-grow: 4;
-
-}
-
 .texto {
     position: absolute;
-    text-wrap: nowrap;
     color: white;
-    bottom: 25%;
-    left: 0;
+    bottom: 5%;
+    left: clamp(16px, 3vw, 40px);
+    right: 20px;
     opacity: 0;
-    padding-left: 40px;
-    padding-bottom: 30px;
-    -webkit-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-    z-index: 50;
+    z-index: 2;
+    transition: opacity .3s ease, transform .3s ease;
+    transform: translateY(20px);
 }
 
-.item-img:hover .texto {
+#camaleao .texto,
+.item-img:hover .texto,
+.item-img:focus-within .texto {
     opacity: 1;
-    bottom: 5%;
-    -webkit-transition: all 0.4s ease 0.4s;
-    -o-transition: all 0.4s ease 0.4s;
-    transition: all 0.4s ease 0.4s;
+    transform: translateY(0);
 }
 
 #people {
@@ -126,19 +92,24 @@ body {
     font-weight: 600;
     border-radius: 2px;
     background: #fff;
-
 }
 
 .texto h2 {
-    font-size: 60px;
+    font-size: clamp(2rem, 4vw, 3.75rem);
     font-weight: 700;
     color: #fff;
+    margin-top: 12px;
+}
 
+#author {
+    margin-top: 12px;
+    min-height: 60px;
 }
 
 #author img {
     width: 60px;
     height: 60px;
+    object-fit: cover;
     float: left;
     border-radius: 50%;
     margin-right: 10px;
@@ -148,4 +119,54 @@ body {
     font-weight: 600;
     color: #fff;
     padding-top: 15px;
+}
+
+@media (max-width: 900px) {
+    #imagens {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: minmax(320px, 48vh);
+    }
+
+    .item-img,
+    .item-img:hover,
+    .item-img:focus-within,
+    #camaleao {
+        flex: none;
+    }
+
+    #camaleao {
+        grid-column: 1 / -1;
+        order: initial;
+    }
+
+    .item-img::after {
+        opacity: .55;
+    }
+
+    .texto {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (max-width: 700px) {
+    body {
+        display: block;
+        padding-top: 64px;
+    }
+
+    #imagens {
+        grid-template-columns: 1fr;
+        grid-auto-rows: minmax(360px, 72vh);
+        min-height: auto;
+    }
+
+    #camaleao {
+        grid-column: auto;
+    }
+
+    .texto h2 {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
 }
